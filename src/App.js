@@ -5,7 +5,17 @@ const App = () => {
   const [newName, setNewName] = useState('');
 
   const handleSubmit = (e) => {
+    //prevent default form
     e.preventDefault();
+
+    //check for name and return if match
+    for (let x = 0; x < persons.length; x++) {
+      if (persons[x].name === newName) {
+        alert(`${newName} is already added to the phonebook`);
+        return 0;
+      }
+    }
+    //code for adding to array persons
     const lastplace = persons[persons.length - 1].id;
     const temp = {
       name: newName,
@@ -16,6 +26,7 @@ const App = () => {
     console.log(lastplace);
   };
 
+  //update newName
   const handleChange = (e) => {
     console.log(e.target.value);
     setNewName(e.target.value);
