@@ -1,16 +1,19 @@
 import { useState } from 'react';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', id: 1 }]);
   const [newName, setNewName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const lastplace = persons[persons.length - 1].id;
     const temp = {
       name: newName,
+      id: lastplace + 1,
     };
     setPersons(persons.concat(temp));
     setNewName('');
+    console.log(lastplace);
   };
 
   const handleChange = (e) => {
@@ -32,7 +35,11 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
+      <ul>
+        {persons.map((person) => (
+          <li key={person.id}>{person.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
