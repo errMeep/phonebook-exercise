@@ -2,10 +2,14 @@ import { useState } from 'react';
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1, number: '123-243-2334' },
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
   ]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [searchName, setSearchName] = useState('');
 
   const handleSubmit = (e) => {
     //prevent default form
@@ -33,14 +37,50 @@ const App = () => {
 
   //update newName
   const handleNameChange = (e) => {
-    console.log(e.target.value);
     setNewName(e.target.value);
   };
 
   //update newNumber
   const handleNumberChange = (e) => {
-    console.log(e.target.value);
     setNewNumber(e.target.value);
+  };
+
+  //update searchName
+  const handleSearchChange = (e) => {
+    setSearchName(e.target.value);
+  };
+
+  const NumbersList = () => {
+    //search for letter to match word in array
+    const filteredResult = persons.filter((person) =>
+      person.name.toLowerCase().includes(searchName.toLowerCase())
+    );
+    //if empty return all
+    if (searchName === '') {
+      return (
+        <div>
+          <ul>
+            {persons.map((person) => (
+              <li key={person.id}>
+                {person.name} {person.number}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <ul>
+            {filteredResult.map((person) => (
+              <li key={person.id}>
+                {person.name} {person.number}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
   };
 
   return (
@@ -60,14 +100,12 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {/* Map and list over entries*/}
-        {persons.map((person) => (
-          <li key={person.id}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <div>
+        filter shown with:{' '}
+        <input value={searchName} onChange={handleSearchChange} />
+      </div>
+
+      <NumbersList />
     </div>
   );
 };
