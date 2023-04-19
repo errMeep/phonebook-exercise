@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Search from './Components/Search';
+import Form from './Components/Form';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -32,7 +34,6 @@ const App = () => {
     setPersons(persons.concat(temp));
     setNewName('');
     setNewNumber('');
-    console.log(lastplace);
   };
 
   //update newName
@@ -50,62 +51,23 @@ const App = () => {
     setSearchName(e.target.value);
   };
 
-  const NumbersList = () => {
-    //search for letter to match word in array
-    const filteredResult = persons.filter((person) =>
-      person.name.toLowerCase().includes(searchName.toLowerCase())
-    );
-    //if empty return all
-    if (searchName === '') {
-      return (
-        <div>
-          <ul>
-            {persons.map((person) => (
-              <li key={person.id}>
-                {person.name} {person.number}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <ul>
-            {filteredResult.map((person) => (
-              <li key={person.id}>
-                {person.name} {person.number}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>debug: {newName}</div>
-
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form
+        handleSubmit={handleSubmit}
+        handleNumberChange={handleNumberChange}
+        handleNameChange={handleNameChange}
+        newName={newName}
+        newNumber={newNumber}
+      />
       <h2>Numbers</h2>
       <div>
         filter shown with:{' '}
         <input value={searchName} onChange={handleSearchChange} />
       </div>
 
-      <NumbersList />
+      <Search persons={persons} searchName={searchName} />
     </div>
   );
 };
