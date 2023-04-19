@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', id: 1 }]);
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', id: 1, number: '123-243-2334' },
+  ]);
   const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
 
   const handleSubmit = (e) => {
     //prevent default form
@@ -20,16 +23,24 @@ const App = () => {
     const temp = {
       name: newName,
       id: lastplace + 1,
+      number: newNumber,
     };
     setPersons(persons.concat(temp));
     setNewName('');
+    setNewNumber('');
     console.log(lastplace);
   };
 
   //update newName
-  const handleChange = (e) => {
+  const handleNameChange = (e) => {
     console.log(e.target.value);
     setNewName(e.target.value);
+  };
+
+  //update newNumber
+  const handleNumberChange = (e) => {
+    console.log(e.target.value);
+    setNewNumber(e.target.value);
   };
 
   return (
@@ -37,7 +48,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          name: <input value={newName} onChange={handleChange} />
+          name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>debug: {newName}</div>
 
@@ -47,8 +61,11 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
+        {/* Map and list over entries*/}
         {persons.map((person) => (
-          <li key={person.id}>{person.name}</li>
+          <li key={person.id}>
+            {person.name} {person.number}
+          </li>
         ))}
       </ul>
     </div>
