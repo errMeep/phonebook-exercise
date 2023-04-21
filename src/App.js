@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Search from './Components/Search';
 import Form from './Components/Form';
+import axios from 'axios';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -12,6 +13,14 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
+
+  console.log('effec start ');
+  useEffect(() => {
+    console.log('effect');
+    axios.get('http://localhost:3001/persons').then((res) => {
+      console.log(res.data);
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     //prevent default form
