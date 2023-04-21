@@ -14,6 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
 
+  //pull data from server
   console.log('effec start ');
   useEffect(() => {
     console.log('effect');
