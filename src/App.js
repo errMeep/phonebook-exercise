@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Search from './Components/Search';
 import Form from './Components/Form';
-import services from './Components/services';
+import backend from './Components/services';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,6 +13,12 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
+
+  useEffect(() => {
+    backend.getAll().then((res) => {
+      setPersons(res);
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     //prevent default form
@@ -29,10 +35,12 @@ const App = () => {
     const lastplace = persons[persons.length - 1].id;
     const temp = {
       name: newName,
-      id: lastplace + 1,
       number: newNumber,
     };
     setPersons(persons.concat(temp));
+    backend.create(temp).then((res) => {
+      setPersons(persons.concat(res));
+    });
     setNewName('');
     setNewNumber('');
   };
