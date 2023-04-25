@@ -14,7 +14,9 @@ const Search = (props) => {
           {persons.map((person) => (
             <li key={person.id}>
               {person.name} {person.number}{' '}
-              <button onClick={() => removeEntry(person.id)}>delete</button>
+              <button onClick={() => removeEntry(person.id, person.name)}>
+                delete
+              </button>
             </li>
           ))}
         </ul>
@@ -27,7 +29,9 @@ const Search = (props) => {
           {filteredResult.map((person) => (
             <li key={person.id}>
               {person.name} {person.number}{' '}
-              <button onClick={() => removeEntry(person.id)}>delete</button>
+              <button onClick={() => removeEntry(person.id, person.name)}>
+                delete
+              </button>
             </li>
           ))}
         </ul>

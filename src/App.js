@@ -46,10 +46,11 @@ const App = () => {
   };
 
   //remove from backend and frontend
-  const removeEntry = (id) => {
-    backend.remove(id).then(() => {
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+  const removeEntry = (id, name) => {
+    if (window.confirm(`Delete ${name}?`))
+      backend.remove(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
   };
 
   //update newName
