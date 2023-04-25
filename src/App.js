@@ -14,6 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
 
+  //update list from backend server
   useEffect(() => {
     backend.getAll().then((res) => {
       setPersons(res);
@@ -32,7 +33,6 @@ const App = () => {
       }
     }
     //code for adding to array persons
-    const lastplace = persons[persons.length - 1].id;
     const temp = {
       name: newName,
       number: newNumber,
@@ -43,6 +43,13 @@ const App = () => {
     });
     setNewName('');
     setNewNumber('');
+  };
+
+  //remove from backend and frontend
+  const removeEntry = (id) => {
+    backend.remove(id).then(() => {
+      setPersons(persons.filter((person) => person.id !== id));
+    });
   };
 
   //update newName
@@ -76,7 +83,11 @@ const App = () => {
         <input value={searchName} onChange={handleSearchChange} />
       </div>
 
-      <Search persons={persons} searchName={searchName} />
+      <Search
+        persons={persons}
+        searchName={searchName}
+        removeEntry={removeEntry}
+      />
     </div>
   );
 };
