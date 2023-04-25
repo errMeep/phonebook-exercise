@@ -27,9 +27,17 @@ const App = () => {
 
     //check for name and return if match
     for (let x = 0; x < persons.length; x++) {
-      if (persons[x].name === newName) {
-        alert(`${newName} is already added to the phonebook`);
-        return 0;
+      if (persons[x].name.toLowerCase() === newName.toLowerCase()) {
+        if (
+          window.confirm(
+            `${persons[x].name} is already added to phonebook, replace old number with new one?`
+          )
+        ) {
+          updateEntry(persons[x]);
+          setNewName('');
+          setNewNumber('');
+          return 0;
+        }
       }
     }
     //code for adding to array persons
@@ -51,6 +59,16 @@ const App = () => {
       backend.remove(id).then(() => {
         setPersons(persons.filter((person) => person.id !== id));
       });
+  };
+
+  //update user
+  const updateEntry = (user) => {
+    const shellUser = { ...user, number: newNumber };
+    backend.update(user.id, shellUser).then((res) => {
+      setPersons(
+        persons.map((person) => (person.id !== res.id ? person : res))
+      );
+    });
   };
 
   //update newName
