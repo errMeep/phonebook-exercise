@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Search from './Components/Search';
 import Form from './Components/Form';
-import axios from 'axios';
+import services from './Components/services';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,15 +13,6 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
-
-  //pull data from server
-  console.log('effec start ');
-  useEffect(() => {
-    console.log('effect');
-    axios.get('http://localhost:3001/persons').then((res) => {
-      console.log(res.data);
-    });
-  }, []);
 
   const handleSubmit = (e) => {
     //prevent default form
