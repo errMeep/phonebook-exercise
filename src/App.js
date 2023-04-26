@@ -8,7 +8,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
-  const [notifMessage, setnotiMessage] = useState('');
+  const [notifMessage, setnotiMessage] = useState(null);
 
   //update list from backend server
   useEffect(() => {
@@ -33,7 +33,7 @@ const App = () => {
           setNewName('');
           setNewNumber('');
           return 0;
-        }
+        } else return 0;
       }
     }
     //code for adding to array persons
@@ -47,7 +47,7 @@ const App = () => {
       setnotiMessage(`${res.name} has been added`);
       setTimeout(() => {
         setnotiMessage(null);
-      }, 5000);
+      }, 4000);
     });
     setNewName('');
     setNewNumber('');
@@ -64,11 +64,22 @@ const App = () => {
   //update user
   const updateEntry = (user) => {
     const shellUser = { ...user, number: newNumber };
-    backend.update(user.id, shellUser).then((res) => {
-      setPersons(
-        persons.map((person) => (person.id !== res.id ? person : res))
-      );
-    });
+    backend
+      .update(user.id, shellUser)
+      .then((res) => {
+        setPersons(
+          persons.map((person) => (person.id !== res.id ? person : res))
+        );
+      })
+      .catch((err) => {
+        setnotiMessage(
+          `Error: ${user.name} was already deleted from the server`
+        );
+        setTimeout(() => {
+          setnotiMessage(null);
+        }, 4000);
+        setPersons(persons.filter((person) => person.id !== user.id));
+      });
   };
 
   //update newName
