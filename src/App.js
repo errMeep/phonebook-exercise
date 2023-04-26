@@ -2,17 +2,13 @@ import { useState, useEffect } from 'react';
 import Search from './Components/Search';
 import Form from './Components/Form';
 import backend from './Components/services';
-
+import Notification from './Components/Notification';
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
+  const [notifMessage, setnotiMessage] = useState('');
 
   //update list from backend server
   useEffect(() => {
@@ -48,6 +44,10 @@ const App = () => {
     setPersons(persons.concat(temp));
     backend.create(temp).then((res) => {
       setPersons(persons.concat(res));
+      setnotiMessage(`${res.name} has been added`);
+      setTimeout(() => {
+        setnotiMessage(null);
+      }, 5000);
     });
     setNewName('');
     setNewNumber('');
@@ -89,6 +89,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notifMessage} />
       <Form
         handleSubmit={handleSubmit}
         handleNumberChange={handleNumberChange}
