@@ -14,7 +14,6 @@ const Form = (props) => {
       <div>
         number: <input value={newNumber} onChange={handleNumberChange} />
       </div>
-      <div>debug: {newName}</div>
 
       <div>
         <button type="submit">add</button>
